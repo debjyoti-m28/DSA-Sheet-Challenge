@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    void  reachDest(int i,int j,int n,string &path,vector<string> &ans,vector<vector<int>> &m){
+        if(i==n-1 && j==n-1) {
+            ans.push_back(path);
+            return;
+        }
+        if(i<0 || j<0 || i>=n || j>=n || m[i][j]==0) return;
+        m[i][j]=0;
+        
+        path+='D';
+        reachDest(i+1,j,n,path,ans,m);
+        path.pop_back();
+        path+='U';
+        reachDest(i-1,j,n,path,ans,m);
+        path.pop_back();
+        path+='R';
+        reachDest(i,j+1,n,path,ans,m);
+        path.pop_back();
+        path+='L';
+        reachDest(i,j-1,n,path,ans,m);
+        path.pop_back();
+        
+        m[i][j]=1;
+    }
+    vector<string> findPath(vector<vector<int>> &m, int n) {
+        string s="-1";
+        if(m[0][0]==0 || m[n-1][n-1]==0) return {s};
+        vector<string> ans;
+        string path="";
+        
+        reachDest(0,0,n,path,ans,m);
+        return ans;
+    }
+};
